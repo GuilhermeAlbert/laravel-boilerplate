@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\BaseRepository;
-use App\Stub;
+use App\Models\Stub;
 use App\Interfaces\Repositories\StubInterface;
 
 class StubRepository extends BaseRepository implements StubInterface
@@ -13,6 +13,7 @@ class StubRepository extends BaseRepository implements StubInterface
 
     /**
      * Constructor method to instantiate a instance
+     * @param Stub $model
      */
     public function __construct(Stub $model)
     {

@@ -3,17 +3,19 @@
 namespace App\Services;
 
 use App\Interfaces\Services\StubInterface;
+use App\Repositories\StubRepository;
 
 class StubService implements StubInterface
 {
     // Protected variable context
-    protected $service;
+    protected $repository;
 
     /**
      * Constructor method to instantiate a instance
+     * @param StubRepository $repository
      */
-    public function __construct(Stub $service)
+    public function __construct(StubRepository $repository)
     {
-        $this->service = $service;
+        $this->repository = $repository;
     }
 }

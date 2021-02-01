@@ -46,4 +46,30 @@ interface BaseInterface
      * @return mixed
      */
     public function forceDelete(Model $object);
+
+    /**
+     * @param Array $retriever
+     * @param Array $attributes
+     * @return object
+     */
+    public function firstOrCreate(array $retriever, array $attributes);
+
+    /**
+     * @param Array $retriever
+     * @param Array $attributes
+     * @return object
+     */
+    public function firstOrNew(array $retriever, array $attributes);
+
+    /**
+     * @param Array $retriever
+     * @param Array $attributes
+     * @return object
+     */
+    public function updateOrCreate(array $retriever, array $attributes);
+
+    /**
+     * @return Object
+     */
+    public function first();
 }

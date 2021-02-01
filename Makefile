@@ -17,8 +17,8 @@ NODE_IMAGE_NAME=node
 
 # MySQL environment variables
 DB_DATABASE=default
-DB_USERNAME=default
-DB_PASSWORD=secret
+DB_USERNAME=root
+DB_PASSWORD=root
 
 # Current date
 CURRENT_DATE=$(shell date +'%Y-%m-%d')
@@ -55,8 +55,17 @@ initial-build:
 	docker exec -it $(WORKSPACE_CONTAINER_NAME) composer install
 	docker exec -it $(PHP_CONTAINER_NAME) bash -c 'php artisan key:generate'
 	docker exec -it $(DB_CONTAINER_NAME) mysql -u root -proot -e "ALTER USER '$(DB_USERNAME)' IDENTIFIED WITH mysql_native_password BY '$(DB_PASSWORD)';";
+	docker exec -it $(DB_CONTAINER_NAME) mysql -u root -proot -e "DROP DATABASE IF EXISTS $(DB_DATABASE);";
+	docker exec -it $(DB_CONTAINER_NAME) mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS $(DB_DATABASE);";
 	docker exec -it $(PHP_CONTAINER_NAME) bash -c "php artisan migrate --seed"
 	docker exec -it $(WORKSPACE_CONTAINER_NAME) npm install
+
+# Clear all cache
+.PHONY: clear-cache
+clear-cache:
+	docker exec -it $(WORKSPACE_CONTAINER_NAME) bash -c "php artisan config:cache"
+	docker exec -it $(WORKSPACE_CONTAINER_NAME) bash -c "php artisan config:clear"
+	docker exec -it $(WORKSPACE_CONTAINER_NAME) bash -c "php artisan cache:clear"
 
 # Run all containers
 .PHONY: up
